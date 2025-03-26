@@ -1,80 +1,99 @@
 # Ollama Grader Evaluator
 
-A Python application that evaluates how well different Ollama models grade short-answer computer science questions.
+A tool for evaluating LLM grading capabilities across different Ollama models.
 
 ## Overview
 
-This tool allows you to:
-- Upload a CSV or Excel file containing questions, model answers, student answers, and reference grades
-- Select which Ollama models to evaluate
-- Compare how accurately different models grade student answers
-- Analyze performance metrics like grading accuracy, consistency, and response time
-- Export results in various formats for further analysis
+This application helps evaluate how consistently and accurately different Ollama language models grade student answers. It provides visualization tools, metrics for consistency and accuracy, and export options.
 
-## Requirements
+## Project Structure
 
-- Python 3.8+
-- Ollama running locally on port 11434
-- Required Python packages:
-  - tkinter
-  - pandas
-  - numpy
-  - matplotlib
-  - requests
-  - openpyxl (for Excel support)
+The project has been modularized into the following structure:
+
+```
+ollama_grader_evaluator/
+├── __init__.py                # Package initialization
+├── app.py                     # Main application entry point
+├── ui/                        # UI components
+│   ├── __init__.py
+│   ├── main_window.py         # Main application window
+│   ├── file_input.py          # File selection components
+│   ├── model_selection.py     # Model selection checkboxes
+│   ├── progress_widgets.py    # Progress bar and status display
+│   └── results_display.py     # Results visualization and tables
+├── core/                      # Core functionality
+│   ├── __init__.py
+│   ├── data_manager.py        # Data loading and processing
+│   ├── ollama_client.py       # Ollama API interaction
+│   ├── evaluator.py           # Evaluation logic
+│   ├── metrics.py             # Metrics calculation (consistency, accuracy)
+│   └── export.py              # Export functionality
+└── utils/                     # Utility functions
+    ├── __init__.py
+    └── helpers.py             # Common helper functions
+```
+
+## Prerequisites
+
+- Python 3.6+
+- Ollama running locally (with API accessible at http://localhost:11434)
+- Tkinter (usually comes with Python)
 
 ## Installation
 
-1. Ensure Ollama is installed and running on your system.
-2. Install required Python dependencies:
+### From Source
+
+1. Clone the repository:
+   ```
+   git clone [repository_url]
+   cd ollama-grader-evaluator
+   ```
+
+2. Install dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+
+3. Run the application:
+   ```
+   python run_evaluator.py
+   ```
+
+### Using pip
 
 ```
-pip install pandas numpy matplotlib requests openpyxl
+pip install .
+ollama-grader
 ```
-
-## Usage
-
-1. Run the application:
-
-```
-python ollama_grader_evaluator.py
-```
-
-2. Click "Browse" to select your input CSV or Excel file.
-3. Select the models you want to evaluate.
-4. Click "Run Evaluation" to start the process.
-5. View results and export them using the "Export Results" button.
 
 ## Input Data Format
 
-The input file should be a CSV or Excel file with the following columns:
-- **Question**: The computer science question
-- **Model Answer**: The correct answer (reference)
-- **Student Answer**: The student's response to be graded
-- **Model Grade**: The reference grade (0.0-1.0) for evaluation
+The application expects a CSV or Excel file with the following columns:
 
-Example format:
-```
-Question,Model Answer,Student Answer,Model Grade
-"What is a binary search?","Binary search is...",Student response...",0.8
-```
+- `Question`: The question being asked
+- `Model Answer`: The correct/reference answer
+- `Student Answer`: The student's answer to be graded
+- `Model Grade`: The expected grade (between 0.0 and 1.0)
 
-## Understanding Results
+## Features
 
-The evaluation provides several metrics:
-- **Average Accuracy**: How close the model's grade is to the reference grade (higher is better)
-- **Consistency**: How consistently the model grades across different questions (higher is better)
-- **Average Response Time**: How long the model takes to generate a grade
-- **Extraction Confidence**: How confidently the grade could be extracted from the model's response
+- **Multi-model Evaluation**: Test multiple Ollama models simultaneously
+- **Consistency Metrics**: Measure how consistently models grade the same answer
+- **Accuracy Metrics**: Compare grades against expected/reference grades
+- **Interactive UI**: Visual feedback on progress and results
+- **Export Options**: Export results in various formats (CSV, Excel, JSON)
 
-## Supported Models
+## How It Works
 
-The application is pre-configured with the following models:
-- gemma3:12b
-- qwen2.5:14b
-- exaone-deep:7.8b
-- deepseek-r1:14b
-- deepseek-r1:8b
-- mistral:latest
+1. The application sends a carefully formatted grading prompt to each selected Ollama model
+2. Each question is evaluated multiple times to measure consistency
+3. Grades are extracted from the model's response using pattern matching
+4. Results are analyzed and presented with visualizations
 
-Ensure these models are available in your Ollama installation or modify the code to include your available models.
+## License
+
+[License information]
+
+## Acknowledgments
+
+[Any acknowledgments]

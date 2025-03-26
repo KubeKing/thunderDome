@@ -1,6 +1,3 @@
-/evalLogFirst.txt
-/evalLogSecond.txt
-/example_questions_10.csv
-/firstRun.PNG
-/secondRun.PNG
-/semanticEntropy.txt
+
+/exports
+*__pycache__/
